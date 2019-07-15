@@ -1,0 +1,10 @@
+.todo-list__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-list__text{
+  background: none;    
+  color: #000000;
+  border: none;
+}
