@@ -11,7 +11,7 @@ export default class App extends React.Component {
       items: [],
       currentItem: {
         text: '',
-        key: '',
+        date: '',
         completed: false,
         dueDate: '',
       },
@@ -20,24 +20,35 @@ export default class App extends React.Component {
 
   handleTextInput = e => {
     const itemText = e.target.value;
-    const currentItem = {
-      text: itemText, 
-      key: Date.now(),
-      dueDate: Date.now(),
-    }
 
     this.setState({
-      currentItem,
+      currentItem: {
+        ...this.state.currentItem,
+        text: itemText, 
+        date: Date.now()
+    }
     })
   }
-  
+
+  handleDateInput = e => {
+    const itemDate = e.target.value;
+    console.log(itemDate);
+    
+    this.setState({
+      currentItem: {
+        ...this.state.currentItem,
+        dueDate: itemDate,
+      },
+    })
+  }
+
   addItem = e => {
     e.preventDefault();
     const newItem = this.state.currentItem;
 
     if (newItem.text) this.setState({
       items: [...this.state.items, newItem],
-      currentItem: {text: '', key: '', dueDate: ''}
+      currentItem: {text: '', date: '', dueDate: ''}
     })
   }
 
@@ -47,6 +58,7 @@ export default class App extends React.Component {
           <TodoForm 
             addItem={this.addItem}
             handleTextInput={this.handleTextInput}
+            handleDateInput={this.handleDateInput}
             currentItem={this.state.currentItem}
           />
           <TodoList 
