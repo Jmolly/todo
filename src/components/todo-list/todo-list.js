@@ -9,6 +9,10 @@ const TodoList = ({ entries }) => {
         {item.text}
         {item.dueDate ? ` until ${item.dueDate.replace(/T/gi, ' ')}` : ''}
       </span>
+      <input 
+        type="checkbox" 
+        checked={item.completed}>
+      </input>
     </li>
   );
 

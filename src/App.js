@@ -33,7 +33,7 @@ export default class App extends React.Component {
   handleDateInput = e => {
     const itemDate = e.target.value;
     console.log(itemDate);
-    
+
     this.setState({
       currentItem: {
         ...this.state.currentItem,
