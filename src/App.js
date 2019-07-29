@@ -8,10 +8,10 @@ export default class App extends React.Component {
     super();
 
     this.state = {
-      items: [],
+      todos: [],
       currentItem: {
         text: '',
-        date: '',
+        key: '',
         completed: false,
         dueDate: '',
       },
@@ -19,36 +19,41 @@ export default class App extends React.Component {
   }
 
   handleTextInput = e => {
-    const itemText = e.target.value;
-
     this.setState({
       currentItem: {
         ...this.state.currentItem,
-        text: itemText, 
-        date: Date.now()
+        text: e.target.value, 
+        key: Date.now()
     }
     })
   }
 
   handleDateInput = e => {
-    const itemDate = e.target.value;
-    console.log(itemDate);
-
     this.setState({
       currentItem: {
         ...this.state.currentItem,
-        dueDate: itemDate,
+        dueDate: e.target.value,
       },
     })
   }
 
-  addItem = e => {
+  addTodo = e => {
     e.preventDefault();
-    const newItem = this.state.currentItem;
 
-    if (newItem.text) this.setState({
-      items: [...this.state.items, newItem],
-      currentItem: {text: '', date: '', dueDate: ''}
+    if (this.state.currentItem.text) this.setState({
+      todos: [...this.state.todos, this.state.currentItem],
+      currentItem: {text: '', key: '', dueDate: ''}
+    })
+  }
+
+  toggleCompleted = key => {
+    this.setState({
+      todos: this.state.todos.map(
+        item => {
+          if (item.key === key) item.completed = !item.completed;
+          return item;
+        },
+      )
     })
   }
 
@@ -56,14 +61,14 @@ export default class App extends React.Component {
     return (
       <div className="app">
           <TodoForm 
-            addItem={this.addItem}
+            addTodo={this.addTodo}
             handleTextInput={this.handleTextInput}
             handleDateInput={this.handleDateInput}
             currentItem={this.state.currentItem}
           />
           <TodoList 
-            entries={this.state.items}
-            deleteItem={this.deleteItem}
+            todos={this.state.todos}
+            toggleCompleted={this.toggleCompleted}
           />
         </div>
     );  
