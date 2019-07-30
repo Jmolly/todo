@@ -12,3 +12,11 @@
 .todo-list__text_completed {
   text-decoration: line-through;
 }
+
+.visible{ 
+  display: default;
+}
+
+.not-visible{ 
+  display: none;
+}
