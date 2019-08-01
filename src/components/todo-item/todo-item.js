@@ -5,9 +5,9 @@ export default class TodoItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      isInEditMode: false,
+      defaultValue: "",
       mouseOver: false,
-    };
+    };  
   }
 
   mouseOver = () => {
@@ -22,42 +22,62 @@ export default class TodoItem extends React.Component {
     });
   }
   
-  editItem = () => {
-    this.setState({
-      isInEditMode: true
-    });
-  };
+  cancelTodo = todo => {
+    this.refs.textField.value = todo.text;
 
-  saveItem = () => {
     this.setState({
       isInEditMode: false
     });
   };
 
-  render() {
-    let { todo, toggleCompleted, deleteTodo } = this.props;
+  updateInput = e => {
+    e.persist();
+    
+    this.setState({
+      defaultValue: e.target.value
+    });
+  }
 
+  render() {
+    let { todo, toggleCompleted, deleteTodo, saveTodo, editTodo } = this.props;
+    
     return (
       <li className="todo-list__item" key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
-        <input
-          className={todo.completed ? "todo-list__text todo-list__text_completed" : "todo-list__text"}
-          type="text"
-          defaultValue={todo.text}
-          ref="textInput"
-          disabled={!this.state.isInEditMode}
-        />
-        <div className = {this.state.mouseOver ? "visible" : "not-visible"}>
-          {this.state.isInEditMode ? (
-            <button onClick={() => this.saveItem()}>save</button>
-          ) : (
-            <button onClick={() => this.editItem()}>edit</button>
-          )}
-        </div>
-        <input 
-        type="checkbox" 
-        onClick={() => toggleCompleted(todo.key)}
-        />
-        <button onClick={() => deleteTodo(todo.key)}>delete</button>
+        {/* <form className="todo-list-form" action=""> */}
+          <input
+            className={"input todo-list__text" + (todo.completed ?  " todo-list__text_completed" : "")}
+            type="text"
+            ref="textField"
+            defaultValue={todo.text}
+            onChange={this.updateInput}
+            disabled={!todo.isEditing}
+          />
+          <input
+            className={"input todo-list__text" + (todo.dueDate ?  "" : " not-visible")}
+            type="datetime-local"
+            defaultValue={todo.dueDate}
+            onChange={this.props.handleDateInput}
+            disabled={!todo.isEditing}
+          />
+          <div>
+            {todo.isEditing ? (
+              <div>
+                <button onClick={() => saveTodo(todo.key, this.state.defaultValue)}>save</button>
+                <button onClick={() => this.cancelTodo(todo)}>cancel</button>
+              </div>
+            ) : (
+              <button 
+                className = {this.state.mouseOver ? "visible" : "not-visible"} 
+                onClick={() => editTodo(todo.key)}
+              >edit</button>
+            )}
+          </div>
+          <input 
+            type="checkbox" 
+            onClick={() => toggleCompleted(todo.key)}
+          />
+          <button onClick={() => deleteTodo(todo.key)}>delete</button>
+        {/* </form> */}
       </li>
     );
   }

@@ -12,6 +12,7 @@ export default class App extends React.Component {
       currentItem: {
         text: '',
         key: '',
+        isEditing: false,
         completed: false,
         dueDate: '',
       },
@@ -44,18 +45,33 @@ export default class App extends React.Component {
       todos: [...this.state.todos, this.state.currentItem],
       currentItem: {text: '', key: '', dueDate: ''}
     })
+
   }
 
   deleteTodo = key => {
-    const filteredTodos = this.state.todos.filter(
-      todo => todo.key !== key
-      )
-    
     this.setState({
-      todos: filteredTodos,
+      todos: this.state.todos.filter(
+        todo => todo.key !== key
+      )
     })
   }
 
+  saveTodo = (key, newText) => {
+    this.setState({
+      todos: this.state.todos.map(
+        todo => 
+          todo.key === key ? {...todo, text: newText, isEditing: false} : todo
+        )
+    })
+  }
+
+  editTodo = key => {
+    this.setState({
+      todos: this.state.todos.map(
+        todo => todo.key === key ? { ...todo, isEditing: true } : todo
+      )
+    })
+  }
 
   toggleCompleted = key => {
     this.setState({
@@ -69,6 +85,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.todos)
     return (
       <div className="app">
           <TodoForm 
@@ -81,6 +98,8 @@ export default class App extends React.Component {
             todos={this.state.todos}
             toggleCompleted={this.toggleCompleted}
             deleteTodo={this.deleteTodo}
+            saveTodo={this.saveTodo}
+            editTodo={this.editTodo}
           />
         </div>
     );  

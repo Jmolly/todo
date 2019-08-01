@@ -5,7 +5,7 @@ export default class TodoForm extends React.Component {
     return (
       <div>
         <form onSubmit={this.props.addTodo}>
-          <input
+          <input className="input"
             placeholder="add some..."
             value={this.props.currentItem.text}
             onChange={this.props.handleTextInput}

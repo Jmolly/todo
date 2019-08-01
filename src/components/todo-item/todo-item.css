@@ -20,3 +20,8 @@
 .not-visible { 
   display: none;
 }
+
+.todo-list-form {
+  display: flex;
+  justify-content: space-between;
+}
