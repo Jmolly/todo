@@ -35,14 +35,14 @@ export default class TodoItem extends React.Component {
   };
 
   render() {
-    let { item, toggleCompleted } = this.props;
-console.log(item, "item")
+    let { todo, toggleCompleted, deleteTodo } = this.props;
+
     return (
-      <li className="todo-list__item" key={item.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
+      <li className="todo-list__item" key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
         <input
-          className={item.completed ? "todo-list__text todo-list__text_completed" : "todo-list__text"}
+          className={todo.completed ? "todo-list__text todo-list__text_completed" : "todo-list__text"}
           type="text"
-          defaultValue={item.text + (item.dueDate ? ` until ${item.dueDate.replace(/T/gi, ' ')}` : '')}
+          defaultValue={todo.text}
           ref="textInput"
           disabled={!this.state.isInEditMode}
         />
@@ -55,9 +55,9 @@ console.log(item, "item")
         </div>
         <input 
         type="checkbox" 
-        onClick={() => toggleCompleted(item.key)}
-        >
-      </input>
+        onClick={() => toggleCompleted(todo.key)}
+        />
+        <button onClick={() => deleteTodo(todo.key)}>delete</button>
       </li>
     );
   }

@@ -13,10 +13,10 @@
   text-decoration: line-through;
 }
 
-.visible{ 
+.visible { 
   display: default;
 }
 
-.not-visible{ 
+.not-visible { 
   display: none;
 }

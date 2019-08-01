@@ -46,6 +46,17 @@ export default class App extends React.Component {
     })
   }
 
+  deleteTodo = key => {
+    const filteredTodos = this.state.todos.filter(
+      todo => todo.key !== key
+      )
+    
+    this.setState({
+      todos: filteredTodos,
+    })
+  }
+
+
   toggleCompleted = key => {
     this.setState({
       todos: this.state.todos.map(
@@ -69,6 +80,7 @@ export default class App extends React.Component {
           <TodoList 
             todos={this.state.todos}
             toggleCompleted={this.toggleCompleted}
+            deleteTodo={this.deleteTodo}
           />
         </div>
     );  
