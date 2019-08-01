@@ -37,16 +37,12 @@ export default class TodoItem extends React.Component {
   };
 
   updateInput = e => {
-    e.persist();
-
     this.setState({
       editedText: e.target.value
     });
   }
 
   updateDateInput = e => {
-    e.persist();
-
     this.setState({
       editedDate: e.target.value
     });
