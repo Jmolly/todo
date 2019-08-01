@@ -56,11 +56,11 @@ export default class App extends React.Component {
     })
   }
 
-  saveTodo = (key, newText) => {
+  saveTodo = (key, newText, newDate) => {
     this.setState({
       todos: this.state.todos.map(
         todo => 
-          todo.key === key ? {...todo, text: newText, isEditing: false} : todo
+          todo.key === key ? {...todo, text: newText, isEditing: false, dueDate: newDate} : todo
         )
     })
   }

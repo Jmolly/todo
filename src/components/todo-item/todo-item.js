@@ -5,9 +5,10 @@ export default class TodoItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      defaultValue: "",
+      editedText: "",
+      editedDate: "",
       mouseOver: false,
-    };  
+    };
   }
 
   mouseOver = () => {
@@ -24,17 +25,22 @@ export default class TodoItem extends React.Component {
   
   cancelTodo = todo => {
     this.refs.textField.value = todo.text;
-
-    this.setState({
-      isInEditMode: false
-    });
+    this.refs.dateField.value = todo.dueDate;
   };
 
   updateInput = e => {
     e.persist();
-    
+
     this.setState({
-      defaultValue: e.target.value
+      editedText: e.target.value
+    });
+  }
+
+  updateDateInput = e => {
+    e.persist();
+
+    this.setState({
+      editedDate: e.target.value
     });
   }
 
@@ -55,14 +61,15 @@ export default class TodoItem extends React.Component {
           <input
             className={"input todo-list__text" + (todo.dueDate ?  "" : " not-visible")}
             type="datetime-local"
+            ref="textField"
             defaultValue={todo.dueDate}
-            onChange={this.props.handleDateInput}
+            onChange={this.updateDateInput}
             disabled={!todo.isEditing}
           />
           <div>
             {todo.isEditing ? (
               <div>
-                <button onClick={() => saveTodo(todo.key, this.state.defaultValue)}>save</button>
+                <button onClick={() => saveTodo(todo.key, this.state.editedText, this.state.editedDate)}>save</button>
                 <button onClick={() => this.cancelTodo(todo)}>cancel</button>
               </div>
             ) : (
