@@ -12,7 +12,6 @@ export default class App extends React.Component {
       currentItem: {
         text: '',
         key: '',
-        isEditing: false,
         completed: false,
         dueDate: '',
       },
@@ -60,16 +59,8 @@ export default class App extends React.Component {
     this.setState({
       todos: this.state.todos.map(
         todo => 
-          todo.key === key ? {...todo, text: newText, isEditing: false, dueDate: newDate} : todo
+          todo.key === key ? {...todo, text: newText, dueDate: newDate} : todo
         )
-    })
-  }
-
-  editTodo = key => {
-    this.setState({
-      todos: this.state.todos.map(
-        todo => todo.key === key ? { ...todo, isEditing: true } : todo
-      )
     })
   }
 
@@ -99,7 +90,6 @@ export default class App extends React.Component {
             toggleCompleted={this.toggleCompleted}
             deleteTodo={this.deleteTodo}
             saveTodo={this.saveTodo}
-            editTodo={this.editTodo}
           />
         </div>
     );  

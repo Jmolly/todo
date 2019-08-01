@@ -5,10 +5,17 @@ export default class TodoItem extends React.Component {
   constructor() {
     super();
     this.state = {
+      isEditing: "",
       editedText: "",
       editedDate: "",
       mouseOver: false,
     };
+  }
+
+  toggleEditing = () => {
+    this.setState({
+      isEditing: !this.state.isEditing
+    });
   }
 
   mouseOver = () => {
@@ -26,6 +33,7 @@ export default class TodoItem extends React.Component {
   cancelTodo = todo => {
     this.refs.textField.value = todo.text;
     this.refs.dateField.value = todo.dueDate;
+    this.toggleEditing();
   };
 
   updateInput = e => {
@@ -45,7 +53,7 @@ export default class TodoItem extends React.Component {
   }
 
   render() {
-    let { todo, toggleCompleted, deleteTodo, saveTodo, editTodo } = this.props;
+    let { todo, toggleCompleted, deleteTodo, saveTodo } = this.props;
     
     return (
       <li className="todo-list__item" key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
@@ -56,26 +64,26 @@ export default class TodoItem extends React.Component {
             ref="textField"
             defaultValue={todo.text}
             onChange={this.updateInput}
-            disabled={!todo.isEditing}
+            disabled={!this.state.isEditing}
           />
           <input
             className={"input todo-list__text" + (todo.dueDate ?  "" : " not-visible")}
             type="datetime-local"
-            ref="textField"
+            ref="dateField"
             defaultValue={todo.dueDate}
             onChange={this.updateDateInput}
-            disabled={!todo.isEditing}
+            disabled={!this.state.isEditing}
           />
           <div>
-            {todo.isEditing ? (
+            {this.state.isEditing ? (
               <div>
-                <button onClick={() => saveTodo(todo.key, this.state.editedText, this.state.editedDate)}>save</button>
+                <button onClick={() => {saveTodo(todo.key, this.state.editedText, this.state.editedDate); this.toggleEditing()}}>save</button>
                 <button onClick={() => this.cancelTodo(todo)}>cancel</button>
               </div>
             ) : (
               <button 
                 className = {this.state.mouseOver ? "visible" : "not-visible"} 
-                onClick={() => editTodo(todo.key)}
+                onClick={this.toggleEditing}
               >edit</button>
             )}
           </div>

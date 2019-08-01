@@ -2,7 +2,7 @@ import React from 'react';
 import TodoItem from '../todo-item/todo-item'
 import './todo-list.css';
 
-const TodoList = ({ todos, toggleCompleted, deleteTodo, saveTodo, editTodo }) => {
+const TodoList = ({ todos, toggleCompleted, deleteTodo, saveTodo }) => {
 
   return <ul className="todo-list">{
     todos.map(todo => <TodoItem 
@@ -10,10 +10,9 @@ const TodoList = ({ todos, toggleCompleted, deleteTodo, saveTodo, editTodo }) =>
       toggleCompleted={toggleCompleted}
       deleteTodo={deleteTodo}
       saveTodo={saveTodo}
-      editTodo={editTodo}
     />)}
   </ul>;
-  
+
 };
 
 export default TodoList; 
