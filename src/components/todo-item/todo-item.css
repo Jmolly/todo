@@ -1,15 +1,10 @@
-.todo-list__item {
-  display: flex;
-  justify-content: space-between;
-}
-
-.todo-list__text {
+.todo-text {
   background: none;
   color: #000000;
   border: none;
 }
 
-.todo-list__text_completed {
+.todo-text_completed {
   text-decoration: line-through;
 }
 
@@ -21,7 +16,7 @@
   display: none;
 }
 
-.todo-list-form {
+.todo-form {
   display: flex;
   justify-content: space-between;
 }

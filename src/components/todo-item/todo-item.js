@@ -17,7 +17,7 @@ export default class TodoItem extends React.Component {
       isEditing: !this.state.isEditing
     });
   }
-
+  
   mouseOver = () => {
     this.setState({
       mouseOver: true
@@ -52,10 +52,10 @@ export default class TodoItem extends React.Component {
     let { todo, toggleCompleted, deleteTodo, saveTodo } = this.props;
     
     return (
-      <li className="todo-list__item" key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
-        {/* <form className="todo-list-form" action=""> */}
+      <li key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
+        <form className="todo-form" action="">
           <input
-            className={"input todo-list__text" + (todo.completed ?  " todo-list__text_completed" : "")}
+            className={"input todo-text" + (todo.completed ?  " todo-text_completed" : "")}
             type="text"
             ref="textField"
             defaultValue={todo.text}
@@ -63,7 +63,7 @@ export default class TodoItem extends React.Component {
             disabled={!this.state.isEditing}
           />
           <input
-            className={"input todo-list__text" + (todo.dueDate ?  "" : " not-visible")}
+            className={"input todo-text" + (todo.dueDate ?  "" : " not-visible")}
             type="datetime-local"
             ref="dateField"
             defaultValue={todo.dueDate}
@@ -79,7 +79,7 @@ export default class TodoItem extends React.Component {
             ) : (
               <button 
                 className = {this.state.mouseOver ? "visible" : "not-visible"} 
-                onClick={this.toggleEditing}
+                onClick={() => {this.toggleEditing(); this.focusOnText()}}
               >edit</button>
             )}
           </div>
@@ -88,7 +88,7 @@ export default class TodoItem extends React.Component {
             onClick={() => toggleCompleted(todo.key)}
           />
           <button onClick={() => deleteTodo(todo.key)}>delete</button>
-        {/* </form> */}
+        </form>
       </li>
     );
   }

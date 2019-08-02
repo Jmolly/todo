@@ -1,22 +1,30 @@
 import React from 'react';
 
 export default class TodoForm extends React.Component {
-  render() {
+  focusOnText = () => {
+    this.refs.todoText.focus()
+  }
+
+render() {
+    let { addTodo, currentItem, handleTextInput, handleDateInput } = this.props;
+
     return (
       <div>
-        <form onSubmit={this.props.addTodo}>
+        <form onSubmit={addTodo}>
           <input className="input"
+            type="text"
             placeholder="add some..."
-            value={this.props.currentItem.text}
-            onChange={this.props.handleTextInput}
+            ref="todoText"
+            value={currentItem.text}
+            onChange={handleTextInput}
           />
           <input
             type="datetime-local"
-            onChange={this.props.handleDateInput}
+            onChange={handleDateInput}
           />
-          <button type="submit">add todo</button>
+          <button onClick={this.focusOnText}>add todo</button>
         </form>
       </div>
-    );
+    )
   }
 }
