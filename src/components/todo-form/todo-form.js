@@ -1,28 +1,62 @@
-import React from 'react';
+import React from "react";
 
 export default class TodoForm extends React.Component {
+  state = {
+    text: "",
+    key: Date.now(),
+    completed: false,
+    dueDate: "",
+  }
+
+  addTodo = (e) => {
+    e.preventDefault();
+
+    const {text, key, completed, dueDate } = this.state;
+    
+    if (text.trim()) this.props.addTodo({text, key, completed, dueDate});
+    
+    this.setState({
+      text: "",
+      key: "",
+      dueDate: ""
+    })
+  }
+  
+  handleTextInput = (e) => {
+    this.setState({
+        text: e.target.value
+    })
+  }
+
+  handleDateInput = (e) => {
+    this.setState({
+        dueDate: e.target.value,
+    })
+  }
+
   focusOnText = () => {
     this.refs.todoText.focus()
   }
 
-render() {
-    let { addTodo, currentItem, handleTextInput, handleDateInput } = this.props;
+  render() {
+    const { text, dueDate } = this.state;
 
     return (
       <div>
-        <form onSubmit={addTodo}>
+        <form action="">
           <input className="input"
             type="text"
             placeholder="add some..."
             ref="todoText"
-            value={currentItem.text}
-            onChange={handleTextInput}
+            value={text}
+            onChange={this.handleTextInput}
           />
           <input
             type="datetime-local"
-            onChange={handleDateInput}
+            value={dueDate}
+            onChange={this.handleDateInput}
           />
-          <button onClick={this.focusOnText}>add todo</button>
+          <button onClick={this.addTodo}>add todo</button>
         </form>
       </div>
     )

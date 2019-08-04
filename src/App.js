@@ -1,53 +1,21 @@
-import React from 'react';
-import './App.css';
-import TodoForm from './components/todo-form/todo-form'
-import TodoList from './components/todo-list/todo-list'
+import React from "react";
+import "./App.css";
+import TodoForm from "./components/todo-form/todo-form"
+import TodoList from "./components/todo-list/todo-list"
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      todos: [],
-      currentItem: {
-        text: '',
-        key: '',
-        completed: false,
-        dueDate: '',
-      },
-    }    
+  state = {
+    todos: [],
   }
 
-  handleTextInput = e => {
+  addTodo = (todo) => {
     this.setState({
-      currentItem: {
-        ...this.state.currentItem,
-        text: e.target.value, 
-        key: Date.now()
-    }
-    })
-  }
-
-  handleDateInput = e => {
-    this.setState({
-      currentItem: {
-        ...this.state.currentItem,
-        dueDate: e.target.value,
-      },
-    })
-  }
-
-  addTodo = e => {
-    e.preventDefault();
-
-    if (this.state.currentItem.text) this.setState({
-      todos: [...this.state.todos, this.state.currentItem],
-      currentItem: {text: '', key: '', dueDate: ''}
+      todos: [...this.state.todos, todo]
     })
 
   }
 
-  deleteTodo = key => {
+  deleteTodo = (key) => {
     this.setState({
       todos: this.state.todos.filter(
         todo => todo.key !== key
@@ -64,13 +32,10 @@ export default class App extends React.Component {
     })
   }
 
-  toggleCompleted = key => {
+  toggleCompleted = (key) => {
     this.setState({
       todos: this.state.todos.map(
-        item => {
-          if (item.key === key) item.completed = !item.completed;
-          return item;
-        },
+        todo => todo.key === key ? {...todo, completed: !todo.completed} : todo
       )
     })
   }
@@ -80,9 +45,6 @@ export default class App extends React.Component {
       <div className="app">
           <TodoForm 
             addTodo={this.addTodo}
-            handleTextInput={this.handleTextInput}
-            handleDateInput={this.handleDateInput}
-            currentItem={this.state.currentItem}
           />
           <TodoList 
             todos={this.state.todos}

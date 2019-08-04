@@ -8,15 +8,15 @@
   text-decoration: line-through;
 }
 
-.visible { 
-  display: default;
-}
-
-.not-visible { 
-  display: none;
-}
-
 .todo-form {
   display: flex;
   justify-content: space-between;
+}
+
+.not-visible {
+  display: none;
+}
+
+.todo-form:hover .edit {
+  display: inline-block;
 }

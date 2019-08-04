@@ -1,16 +1,13 @@
-import React from 'react';
-import './todo-item.css';
+import React from "react";
+import "./todo-item.css";
+import cn from "classnames"
 
 export default class TodoItem extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isEditing: "",
-      editedText: "",
-      editedDate: "",
-      mouseOver: false,
-    };
-  }
+  state = {
+    isEditing: "",
+    text: this.props.todo.text,
+    date: this.props.todo.dueDate,
+  };
 
   toggleEditing = () => {
     this.setState({
@@ -18,75 +15,72 @@ export default class TodoItem extends React.Component {
     });
   }
   
-  mouseOver = () => {
+  cancelTodo = () => {
     this.setState({
-      mouseOver: true
+      text: this.props.todo.text,
+      date: this.props.todo.date,
     });
-  }
-
-  mouseOut = () => {
-    this.setState({
-      mouseOver: false
-    });
-  }
-  
-  cancelTodo = todo => {
-    this.refs.textField.value = todo.text;
-    this.refs.dateField.value = todo.dueDate;
     this.toggleEditing();
   };
 
-  updateInput = e => {
+  updateInput = (e) => {
     this.setState({
-      editedText: e.target.value
+      text: e.target.value
     });
   }
 
-  updateDateInput = e => {
+  updateDateInput = (e) => {
     this.setState({
-      editedDate: e.target.value
+      date: e.target.value
     });
   }
 
+  onSave = () => {
+    this.props.saveTodo(this.props.todo.key, this.state.editedText, this.state.editedDate);
+    this.toggleEditing();
+  }
+  
   render() {
-    let { todo, toggleCompleted, deleteTodo, saveTodo } = this.props;
-    
+    const { todo, toggleCompleted, deleteTodo } = this.props;
+    const { isEditing } = this.state;
+
     return (
-      <li key={todo.key} onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut}>
+      <li key={todo.key}>
         <form className="todo-form" action="">
           <input
-            className={"input todo-text" + (todo.completed ?  " todo-text_completed" : "")}
+            className={cn("input", "todo-text", {
+              "todo-text_completed" : todo.completed,
+            })}
             type="text"
             ref="textField"
-            defaultValue={todo.text}
+            value={this.state.text}
             onChange={this.updateInput}
-            disabled={!this.state.isEditing}
+            disabled={!isEditing}
           />
           <input
-            className={"input todo-text" + (todo.dueDate ?  "" : " not-visible")}
+            className={cn("input", "todo-text", {
+              "not-visible" : !todo.dueDate,
+            })}
             type="datetime-local"
             ref="dateField"
-            defaultValue={todo.dueDate}
+            value={this.state.date}
             onChange={this.updateDateInput}
-            disabled={!this.state.isEditing}
+            disabled={!isEditing}
           />
           <div>
-            {this.state.isEditing ? (
+            {this.state.isEditing && (
               <div>
-                <button onClick={() => {saveTodo(todo.key, this.state.editedText, this.state.editedDate); this.toggleEditing()}}>save</button>
-                <button onClick={() => this.cancelTodo(todo)}>cancel</button>
+                <button onClick={this.onSave}>save</button>
+                <button onClick={this.cancelTodo}>cancel</button>
               </div>
-            ) : (
-              <button 
-                className = {this.state.mouseOver ? "visible" : "not-visible"} 
-                onClick={() => {this.toggleEditing(); this.focusOnText()}}
-              >edit</button>
+            )}
+            {!this.state.isEditing && (
+              <button className={cn("not-visible","edit")} onClick={this.toggleEditing} >
+                edit
+              </button>
             )}
           </div>
-          <input 
-            type="checkbox" 
-            onClick={() => toggleCompleted(todo.key)}
-          />
+          <input type="checkbox" onClick={() => toggleCompleted(todo.key)}/>
           <button onClick={() => deleteTodo(todo.key)}>delete</button>
         </form>
       </li>
