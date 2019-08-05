@@ -15,27 +15,27 @@ export default class App extends React.Component {
 
   }
 
-  deleteTodo = (key) => {
+  deleteTodo = (id) => {
     this.setState({
       todos: this.state.todos.filter(
-        todo => todo.key !== key
+        todo => todo.id !== id
       )
     })
   }
 
-  saveTodo = (key, newText, newDate) => {
+  saveTodo = (id, newText, newDate) => {
     this.setState({
       todos: this.state.todos.map(
         todo => 
-          todo.key === key ? {...todo, text: newText, dueDate: newDate} : todo
+          todo.id === id ? {...todo, text: newText, dueDate: newDate} : todo
         )
     })
   }
 
-  toggleCompleted = (key) => {
+  toggleCompleted = (id) => {
     this.setState({
       todos: this.state.todos.map(
-        todo => todo.key === key ? {...todo, completed: !todo.completed} : todo
+        todo => todo.id === id ? {...todo, completed: !todo.completed} : todo
       )
     })
   }

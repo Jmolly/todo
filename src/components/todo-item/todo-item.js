@@ -36,7 +36,7 @@ export default class TodoItem extends React.Component {
   }
 
   onSave = () => {
-    this.props.saveTodo(this.props.todo.key, this.state.editedText, this.state.editedDate);
+    this.props.saveTodo(this.props.todo.id, this.state.editedText, this.state.editedDate);
     this.toggleEditing();
   }
   
@@ -45,7 +45,7 @@ export default class TodoItem extends React.Component {
     const { isEditing } = this.state;
 
     return (
-      <li key={todo.key}>
+      <li key={todo.id}>
         <form className="todo-form" action="">
           <input
             className={cn("input", "todo-text", {
@@ -80,8 +80,8 @@ export default class TodoItem extends React.Component {
               </button>
             )}
           </div>
-          <input type="checkbox" onClick={() => toggleCompleted(todo.key)}/>
-          <button onClick={() => deleteTodo(todo.key)}>delete</button>
+          <input type="checkbox" onClick={() => toggleCompleted(todo.id)}/>
+          <button onClick={() => deleteTodo(todo.id)}>delete</button>
         </form>
       </li>
     );

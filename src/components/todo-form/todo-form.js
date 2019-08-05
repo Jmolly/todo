@@ -1,30 +1,35 @@
 import React from "react";
+import uuidv1 from  'uuid/v1';
 
 export default class TodoForm extends React.Component {
   state = {
     text: "",
-    key: Date.now(),
+    id: "",
     completed: false,
     dueDate: "",
   }
 
   addTodo = (e) => {
     e.preventDefault();
-
-    const {text, key, completed, dueDate } = this.state;
     
-    if (text.trim()) this.props.addTodo({text, key, completed, dueDate});
+    this.setState({
+      id: uuidv1(),
+    })
+
+    const {text, id, completed, dueDate } = this.state;
+
+    if (text.trim()) this.props.addTodo({text, id, completed, dueDate});
     
     this.setState({
       text: "",
-      key: "",
+      id: "",
       dueDate: ""
     })
   }
   
   handleTextInput = (e) => {
     this.setState({
-        text: e.target.value
+        text: e.target.value,
     })
   }
 
