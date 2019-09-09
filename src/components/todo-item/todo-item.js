@@ -48,7 +48,7 @@ class TodoItem extends React.Component {
     const { isEditing } = this.state;
 
     return (
-      <li key={todo.id}>
+      <li>
         <form className="todo-form" action="">
           <input
             className={cn("input", "todo-text", {
