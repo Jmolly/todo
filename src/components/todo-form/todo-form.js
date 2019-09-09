@@ -12,17 +12,12 @@ class TodoForm extends React.Component {
   addTodo = (e) => {
     e.preventDefault();
 
-    this.setState({
-      id: uuidv1()
-    });
-
     const { text, dueDate } = this.state;
 
     if (text.trim()) this.props.addTodo(text, uuidv1(), dueDate);
 
     this.setState({
       text: '',
-      id: '',
       dueDate: ''
     });
   };

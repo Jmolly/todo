@@ -3,25 +3,20 @@ export const reducers = (state = [], action) => {
     case 'ADD_TODO':
       return [
         ...state,
-        {
-          id: action.id,
-          text: action.text,
-          dueDate: action.dueDate,
-          completed: false
-        }
+        action.payload
       ];
 
     case 'DELETE_TODO':
-      return state.filter(todo => todo.id !== action.id);
+      return state.filter(todo => todo.id !== action.payload.id);
 
     case 'TOGGLE_TODO':
       return state.map(todo =>
-        todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo
       );
 
     case 'SAVE_TODO':
       return state.map(todo =>
-        todo.id === action.id ? { ...todo, text: action.text, dueDate: action.date } : todo
+        todo.id === action.payload.id ? { ...todo, text: action.payload.text, dueDate: action.payload.date } : todo
       );
 
     default:
